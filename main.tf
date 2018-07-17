@@ -29,7 +29,7 @@ resource "google_compute_target_pool" "default" {
   session_affinity = "${var.session_affinity}"
 
   health_checks = [
-    "${google_compute_http_health_check.default.name}",
+    "${google_compute_health_check.default.name}",
   ]
 }
 
@@ -38,6 +38,17 @@ resource "google_compute_http_health_check" "default" {
   name         = "${var.name}-hc"
   request_path = "/"
   port         = "${var.service_port}"
+}
+   
+resource "google_compute_health_check" "default" {
+  name = "${var.name}-hc"
+
+  timeout_sec        = 5
+  check_interval_sec = 30
+
+  tcp_health_check {
+    port = "${var.service_port}"
+  }
 }
 
 resource "google_compute_firewall" "default-lb-fw" {
