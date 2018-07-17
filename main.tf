@@ -35,7 +35,7 @@ resource "google_compute_target_pool" "default" {
 
 resource "google_compute_http_health_check" "default" {
   project      = "${var.project}"
-  name         = "${var.name}-hc"
+  name         = "${var.name}-hc-http"
   request_path = "/"
   port         = "${var.service_port}"
 }
